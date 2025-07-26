@@ -245,15 +245,6 @@ function M.setup(user_conf)
 
 		M.compile()
 		vim.cmd.colorscheme "catppuccin"
-
-
-		-- Notify fix: set the background color again if notify is used
-		local has_notify, notify = pcall(require, "notify")
-		if has_notify and M.options.integrations.notify then
-			notify.setup({
-				background_colour = require('catppuccin.palettes').get_palette('dynamic').base,
-			})
-		end
 	end
 	)
 
