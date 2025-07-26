@@ -240,6 +240,14 @@ function M.setup(user_conf)
 	vim.print("Watching " .. path .. " for changes...")  -- DEBUG
 	
 	require("catppuccin.watch").watch(path, function()
+		vim.print("Detected changes in " .. path .. ", recompiling...") -- DEBUG
+
+		-- Reload the palette module
+		package.loaded["catppuccin.palettes.dynamic"] = nil
+		local success, colors = pcall(require, "catppuccin.palettes.dynamic")
+
+		vim.print("Success status: " .. tostring(success)) -- DEBUG
+
 		M.compile()
 		vim.cmd.colorscheme "catppuccin"
 	end
