@@ -237,16 +237,11 @@ function M.setup(user_conf)
 
 	-- Watch the `dynamic.lua` palette file for changes
 	local path = vim.fn.stdpath "data" .. "/lazy/catppuccin/lua/catppuccin/palettes/dynamic.lua"
-	vim.print("Watching " .. path .. " for changes...")  -- DEBUG
-	
-	require("catppuccin.watch").watch(path, function()
-		vim.print("Detected changes in " .. path .. ", recompiling...") -- DEBUG
 
+	require("catppuccin.watch").watch(path, function()
 		-- Reload the palette module
 		package.loaded["catppuccin.palettes.dynamic"] = nil
-		local success, colors = pcall(require, "catppuccin.palettes.dynamic")
-
-		vim.print("Success status: " .. tostring(success)) -- DEBUG
+		pcall(require, "catppuccin.palettes.dynamic")
 
 		M.compile()
 		vim.cmd.colorscheme "catppuccin"
