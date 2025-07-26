@@ -234,6 +234,17 @@ function M.setup(user_conf)
 			file:close()
 		end
 	end
+
+	-- Watch the `dynamic.lua` palette file for changes
+	local path = vim.fn.stdpath "data" .. "/lazy/catppuccin/lua/catppuccin/palettes/dynamic.lua"
+	vim.print("Watching " .. path .. " for changes...")  -- DEBUG
+	
+	require("catppuccin.watch").watch(path, function()
+		M.compile()
+		vim.cmd.colorscheme "catppuccin"
+	end
+	)
+
 end
 
 if is_vim then return M end
