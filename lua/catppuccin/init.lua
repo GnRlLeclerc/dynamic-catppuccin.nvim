@@ -1,6 +1,3 @@
-local is_vim = vim.fn.has "nvim" ~= 1
-if is_vim then require "catppuccin.lib.vim" end
-
 ---@type Catppuccin
 local M = {
 	default_options = {
@@ -15,7 +12,6 @@ local M = {
 			transparent = false,
 			solid = false,
 		},
-		show_end_of_buffer = false,
 		term_colors = false,
 		kitty = vim.env.KITTY_WINDOW_ID and true or false,
 		dim_inactive = {
@@ -64,6 +60,7 @@ local M = {
 		integrations = {
 			alpha = true,
 			blink_cmp = { enabled = true, style = "bordered" },
+			blink_indent = true,
 			fzf = true,
 			cmp = true,
 			dap = true,
@@ -131,7 +128,7 @@ function M.compile()
 	local user_flavour = M.flavour
 	for flavour, _ in pairs(M.flavours) do
 		M.flavour = flavour
-		require("catppuccin.lib." .. (is_vim and "vim." or "") .. "compiler").compile(flavour)
+		require("catppuccin.lib.compiler").compile(flavour)
 	end
 	M.flavour = user_flavour -- Restore user flavour after compile
 end
@@ -247,8 +244,6 @@ function M.setup(user_conf)
 
 end
 
-if is_vim then return M end
-
 vim.api.nvim_create_user_command(
 	"Catppuccin",
 	function(inp) vim.api.nvim_command("colorscheme catppuccin-" .. get_flavour(inp.args)) end,
@@ -266,7 +261,7 @@ vim.api.nvim_create_user_command("CatppuccinCompile", function()
 	end
 	M.compile()
 	vim.notify("Catppuccin (info): compiled cache!", vim.log.levels.INFO)
-	vim.cmd.colorscheme "catppuccin"
+	vim.cmd.colorscheme "catppuccin-nvim"
 end, {})
 
 if vim.g.catppuccin_debug then

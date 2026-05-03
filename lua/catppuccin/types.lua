@@ -16,8 +16,6 @@
 -- Whether to enable transparency.
 ---@field transparent_background boolean?
 ---@field float CtpFloatOpts?
--- Toggle the `~` characters after the end of buffers.
----@field show_end_of_buffer boolean?
 -- If true, sets terminal colors (e.g. `g:terminal_color_0`).
 ---@field term_colors boolean?
 -- Workaround for kitty transparency issue: https://github.com/kovidgoyal/kitty/issues/2917
@@ -122,6 +120,7 @@
 ---@class CtpIntegrations
 ---@field aerial boolean?
 ---@field alpha boolean?
+---@field artio boolean?
 ---@field avante CtpIntegratinAvant | boolean?
 ---@field barbar boolean?
 -- Use this to set it up:
@@ -139,6 +138,8 @@
 ---@field barbecue CtpIntegrationBarbecue | boolean?
 ---@field beacon boolean?
 ---@field blink_cmp CtpIntegrationsBlinkCmp | boolean?
+---@field blink_indent boolean?
+---@field blink_pairs boolean?
 ---@field cmp boolean?
 ---@field buffon boolean?
 -- `coc.nvim` links to `lsp_styles` highlight groups, so you can use
@@ -195,6 +196,7 @@
 -- ```
 ---@field lsp_saga boolean?
 ---@field lsp_trouble boolean?
+---@field lualine CtpIntegrationLualine?
 ---@field markview boolean?
 ---@field mason boolean?
 -- You **NEED** to enable highlight in your `nvim-navic` config or it won't work:
@@ -288,6 +290,19 @@
 ---@field enabled boolean
 -- Sets the color of the scope line
 ---@field indentscope_color CtpColor?
+
+---@alias CtpIntegrationLualine CtpFlavors<CtpIntegrationLualineOverride | CtpIntegrationLualineOverrideFn>
+---@alias CtpIntegrationLualineOverride CtpIntegrationLualineModes<CtpIntegrationLualineSectionOverrides>
+---@alias CtpIntegrationLualineOverrideFn fun(colors: CtpColors<string>): CtpIntegrationLualineOverride
+---@alias CtpIntegrationLualineMode "normal" | "insert" | "visual" | "replace" | "command" | "terminal" | "inactive"
+---@class CtpIntegrationLualineModes<T>: { all: T, normal: T, insert: T, visual: T, replace: T, command: T, terminal: T, inactive: T }
+---@alias CtpIntegrationLualineSectionOverrides CtpIntegrationLualineSections<CtpIntegrationLualineSectionOverride>
+---@alias CtpIntegrationLualineSection "a" | "b" | "c"
+---@class CtpIntegrationLualineSections<T>: { a: T, b: T, c: T }
+---@class CtpIntegrationLualineSectionOverride
+---@field fg string?
+---@field bg string?
+---@field gui string? `gui` argument such as "italic,bold", see |highlight-gui|
 
 ---@class CtpIntegrationNavic
 -- Whether to enable the navic integration.
