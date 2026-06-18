@@ -1,6 +1,9 @@
 local M = {}
 
 function M.get()
+	local pumsolid = O.float.solid
+	if vim.fn.has "nvim-0.12" == 1 then pumsolid = vim.o.pumborder == "solid" end
+
 	return {
 		ColorColumn = { bg = C.surface0 }, -- used for the columns set with 'colorcolumn'
 		Conceal = { fg = C.overlay1 }, -- placeholder characters substituted for concealed text (see 'conceallevel')
@@ -11,6 +14,7 @@ function M.get()
 		CursorLine = {
 			bg = U.vary_color({ latte = U.lighten(C.mantle, 0.70, C.base) }, U.darken(C.surface0, 0.64, C.base)),
 		}, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if forecrust (ctermfg OR guifg) is not set.
+		Dimmed = { fg = C.overlay1 },
 		Directory = { fg = C.blue }, -- directory names (and other special names in listings)
 		EndOfBuffer = { fg = C.surface1 }, -- filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
 		ErrorMsg = { fg = C.red, style = { "bold", "italic" } }, -- error messages on the command line
@@ -57,6 +61,10 @@ function M.get()
 			bg = (O.transparent_background and vim.o.pumblend == 0) and C.none or C.mantle,
 			fg = C.overlay2,
 		}, -- Popup menu: normal item.
+		PmenuBorder = {
+			bg = (O.transparent_background and vim.o.pumblend == 0) and C.none or C.mantle,
+			fg = pumsolid and ((O.transparent_background and vim.o.pumblend == 0) and C.none or C.mantle) or C.blue,
+		}, -- Popup menu: border
 		PmenuSel = { bg = C.surface0, style = { "bold" } }, -- Popup menu: selected item.
 		PmenuMatch = { fg = C.text, style = { "bold" } }, -- Popup menu: matching text.
 		PmenuMatchSel = { style = { "bold" } }, -- Popup menu: matching text in selected item; is combined with |hl-PmenuMatch| and |hl-PmenuSel|.
